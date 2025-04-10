@@ -19,7 +19,10 @@
 
 ## Tech Stacks
 
+- [Axios](https://github.com/axios/axios)
+- [Alpine.js](https://alpinejs.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [Toastify JS](https://apvarun.github.io/toastify-js/)
 - [Vite](https://vite.dev/) as bulinding tool
 
 by dev@5xcampus.com

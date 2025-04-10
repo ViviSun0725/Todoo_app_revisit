@@ -10,6 +10,7 @@ const main = () => ({
     nickname:"",
     password:"",
     isLogin: false,
+    todos: [1,2,3],
     showLogin() {
         this.section = "login"
     },
@@ -29,6 +30,7 @@ const main = () => ({
         if(token) {
             this.isLogin = true;
             this.showTask();
+            this.getTodos();
         } else {
             this.showLogin();
         }
@@ -80,6 +82,8 @@ const main = () => ({
             }
         }
         
+        } else {
+            // 提示使用者必填欄位
         }
         
     },
@@ -124,6 +128,8 @@ const main = () => ({
                     }
                   }).showToast();
             }
+        } else {
+            // 提示使用者必填欄位
         }
 
     },
@@ -157,6 +163,25 @@ const main = () => ({
                 }
               }).showToast();
         }
+    },
+    async getTodos() {
+        const url = "https://todoo.5xcamp.us/todos/";
+        const token = localStorage.getItem(USER_TOKEN);
+        const config = {
+            headers: {
+                Authorization: token
+            }
+        };
+
+        try {
+            const {data: {todos}} = await axios.get(url, config);
+            this.todos = todos;
+            //問題 授權
+        } catch(err) {
+            console.log(err);
+            // 系統忙碌中，請稍後再試
+        }
+
     }
 });
 
