@@ -28,8 +28,15 @@
     <main x-data="Main" class="px-6 todo-app main">
       <header>
         <nav class="navbar">
-          <a class="loginLink" @click.prevent="showLogin" href="#login">登入</a>
-          <a class="signUpLink" @click.prevent="showSignUp" href="#sign_up">註冊</a>
+          <template x-if="!isLogin">
+            <div>
+              <a class="loginLink" @click.prevent="showLogin" href="#login">登入</a>
+              <a class="signUpLink" @click.prevent="showSignUp" href="#sign_up">註冊</a>
+            </div>
+          </template>
+          <template x-if="isLogin">
+            <a class="signUpLink" @click.prevent="logOut" href="#sign_up">登出</a>
+          </template>
         </nav>
       </header>
 

@@ -30,7 +30,7 @@ const main = () => ({
             this.isLogin = true;
             this.showTask();
         } else {
-            this.showSignUp();
+            this.showLogin();
         }
     },
     async signUp() {
@@ -84,6 +84,7 @@ const main = () => ({
         
     },
     async login(){
+        // 是否要檢查已登入
         if (this.email !== "" && this.password !== "") {
             const url = "https://todoo.5xcamp.us/users/sign_in";
             const userData = {
@@ -95,9 +96,11 @@ const main = () => ({
             try {
                 const resp = await axios.post(url, userData);
                 const token = resp.headers.authorization;
-                console.log(token);
+
                 localStorage.setItem(USER_TOKEN, token);
                 this.isLogin = true;
+                this.showTask();
+
                 Toastify({
                     text: "登入成功",
                     duration: 3000,
@@ -109,7 +112,7 @@ const main = () => ({
                     }
                   }).showToast();
             } catch(err) {
-                console.log(err);
+
                 Toastify({
                     text: "登入失敗",
                     duration: 3000,
@@ -123,6 +126,37 @@ const main = () => ({
             }
         }
 
+    },
+    async logOut() {
+        const url = "https://todoo.5xcamp.us/users/sign_out";
+        const token = localStorage.getItem(USER_TOKEN);
+        const config = {
+            headers: {
+                Authorization: token
+            }
+        };
+        try {
+            const resp = await axios.delete(url, config);
+        } catch(err) {
+            console.log(err);
+        } finally {
+            localStorage.removeItem(USER_TOKEN);
+            this.isLogin = false;
+            this.clearInput();
+            this.showLogin();
+
+
+            Toastify({
+                text: "已登出",
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                }
+              }).showToast();
+        }
     }
 });
 
