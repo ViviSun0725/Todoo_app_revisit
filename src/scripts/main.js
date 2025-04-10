@@ -1,4 +1,6 @@
 import axios from 'axios';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
 
 const main = () => ({
     section: "signUp",
@@ -34,15 +36,35 @@ const main = () => ({
             const resp = await axios.post(url, userData);
             console.log("ok");
             console.log(resp);
-            // 提示視窗 註冊成功
 
             this.clearInput();
             this.showLogin();
 
+            Toastify({
+                text: "註冊成功",
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                stopOnFocus: true,
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                }
+              }).showToast();
+
         } catch(err) {
             if (err.response.data) {
                 const errMessage = err.response.data.error.join(" / ");
-                console.log(errMessage);
+
+                Toastify({
+                    text: errMessage,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    stopOnFocus: true,
+                    style: {
+                      background: "linear-gradient(to right, #FF6A88, #FF99AC)",
+                    }
+                  }).showToast();
             }
         }
         
